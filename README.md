@@ -15,4 +15,6 @@ If you can't run using `ts-node`, go into `/build` and run `node index.js`.
 
 The videos will be installed inside the `"completed/NA"` folder. Playlists will be installed inside a `"completed/{playlist name}"` folder.
 ## Info
-This is a free project.
+This is a rewrite of Ctaehko's ChatGPT code of a Youtube Downloader.
+
+This was done for free, sadly.
