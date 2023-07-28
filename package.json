@@ -10,12 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "progress-estimator": "^0.3.1",
+    "split2": "^4.2.0",
     "typescript": "^5.1.6",
     "youtube-dl-exec": "^2.4.6",
     "ytdl-core": "^4.11.5"
   },
   "type": "module",
   "devDependencies": {
-    "@types/node": "^20.4.5"
+    "@types/node": "^20.4.5",
+    "@types/split2": "^4.2.0",
+    "ts-node": "^10.9.1"
   }
 }
