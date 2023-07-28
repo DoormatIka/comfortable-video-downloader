@@ -2,28 +2,14 @@ import ytdl from "youtube-dl-exec";
 import logger from "progress-estimator";
 import { createReadStream } from "fs";
 import split2 from "split2";
-import internal from "stream";
-
-// WHAT IS THIS??
-// https://github.com/yt-dlp/yt-dlp#format-selection-examples
-type FORMAT_TYPE = 
-    "3gp" | "aac" | "flv" | "m4a" | "mp3" | "mp4" | "ogg" | "wav" | "webm" | 
-    "best" | "best*" | "bestvideo" | "bestvideo*" | "bestaudio" | "bestaudio*" |
-    "worst*" | "worst" | "worstvideo" | "worstvideo*" | 
-    "worstaudio" | "worstaudio*" | undefined;
-type AUDIO_FORMAT_TYPE = "mp4a.40.5" | "mp4a.40.2" | "opus" | undefined
-
-const LINK_PATH = "./links.txt"
-const AUDIO_FORMAT: AUDIO_FORMAT_TYPE = undefined;
+const LINK_PATH = "./links.txt";
+const AUDIO_FORMAT = undefined;
 const FORMAT = undefined;
-
 const EXTRACT_AUDIO = undefined;
 const KEEP_VIDEO = undefined;
 const DUMP_JSON = true;
-
-
 // no touchie unless you know what you're doing.
-async function createDownloadSession(link: string) {
+async function createDownloadSession(link) {
     const progress = logger({}); // progress bar initialization
     const res = ytdl(link, {
         retries: 3,
@@ -42,30 +28,26 @@ async function createDownloadSession(link: string) {
     const progress_bar_print = await progress(res, `Completing ${link}.`);
     console.log(`\n${progress_bar_print}`);
 }
-async function parser(links: internal.Transform) {
+async function parser(links) {
     for await (const link of links) {
         await createDownloadSession(link);
     }
 }
-
 const file = createReadStream(LINK_PATH, { encoding: "utf8" });
-await parser(
-    file
-        .pipe(split2())
-        .on("close", function() { file.destroy() })
-);
+await parser(file
+    .pipe(split2())
+    .on("close", function () { file.destroy(); }));
 file.destroy();
-
-function mergeFormats(...format: (FORMAT_TYPE | AUDIO_FORMAT_TYPE)[]) {
+function mergeFormats(...format) {
     // equivalent to combining different formats into one
     // usage: mergeFormats("bestvideo", "worstaudio")
     return format.join("+");
 }
-function formatSeperate(...format: (FORMAT_TYPE | AUDIO_FORMAT_TYPE)[]) {
+function formatSeperate(...format) {
     // equivalent to separating formats into their own files
     return format.join(",");
 }
-function select(format: FORMAT_TYPE, selected: number) {
+function select(format, selected) {
     // equivalent to "ba.2" => "second best audio quality" and etc.
     // "ba.n"
     return `${format}${selected}`;

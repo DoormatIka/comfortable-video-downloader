@@ -2,6 +2,7 @@
 GUI incoming soon!
 
 ## Installation
+- Download the `/build` folder of this repo. 
 - Install node.js v18+
 - Install ffmpeg: `http://www.ffmpeg.org/`
 - Run `npm install` on the directory.
