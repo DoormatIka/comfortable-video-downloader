@@ -13,7 +13,8 @@ async function createDownloadSession(link: string) {
         retries: 3,
         continue: true,
         configLocation: "./",
-        extractAudio: EXTRACT_AUDIO
+        extractAudio: EXTRACT_AUDIO,
+        keepVideo: true,
     });
     const progress_bar_print = await progress(res, `Completing ${link}.`);
     console.log(`\n${progress_bar_print}`);
