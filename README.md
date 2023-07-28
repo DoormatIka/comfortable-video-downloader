@@ -1,5 +1,5 @@
 # Comfortable Video Downloader
-GUI incoming soon!
+GUI and .exe incoming soon!
 
 ## Installation
 - Download this repo.
@@ -14,3 +14,5 @@ Run the script with `npm run`
 If you can't run using `ts-node`, go into `/build` and run `node index.js`.
 
 The videos will be installed inside the `"completed/NA"` folder. Playlists will be installed inside a `"completed/{playlist name}"` folder.
+## Info
+This is a free project.

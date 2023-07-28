@@ -4,26 +4,24 @@ import { createReadStream } from "fs";
 import split2 from "split2";
 const LINK_PATH = "./links.txt";
 const AUDIO_FORMAT = undefined;
-const FORMAT = undefined;
-const EXTRACT_AUDIO = undefined;
-const KEEP_VIDEO = undefined;
-const DUMP_JSON = true;
+const FORMAT = "mp3";
+const EXTRACT_AUDIO = true;
+const KEEP_VIDEO = false;
 // no touchie unless you know what you're doing.
 async function createDownloadSession(link) {
     const progress = logger({}); // progress bar initialization
     const res = ytdl(link, {
         retries: 3,
         continue: true,
-        configLocation: "./",
         keepVideo: KEEP_VIDEO,
         extractAudio: EXTRACT_AUDIO,
         audioFormat: AUDIO_FORMAT,
-        dumpSingleJson: DUMP_JSON,
         format: FORMAT,
         addHeader: [
             'referer:youtube.com',
             'user-agent:googlebot'
-        ]
+        ],
+        output: "completed/%(uploader)s/%(playlist)s/%(title)s.%(ext)s",
     });
     const progress_bar_print = await progress(res, `Completing ${link}.`);
     console.log(`\n${progress_bar_print}`);

@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "md5": "^2.3.0",
     "progress-estimator": "^0.3.1",
     "split2": "^4.2.0",
     "typescript": "^5.1.6",
@@ -18,6 +19,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "@types/md5": "^2.3.2",
     "@types/node": "^20.4.5",
     "@types/split2": "^4.2.0",
     "ts-node": "^10.9.1"

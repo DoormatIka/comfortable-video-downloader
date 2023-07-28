@@ -5,21 +5,21 @@ import split2 from "split2";
 import internal from "stream";
 
 // WHAT IS THIS??
-// https://github.com/yt-dlp/yt-dlp#format-selection-examples
+// FORMAT: https://github.com/yt-dlp/yt-dlp#format-selection-examples
+// OUTPUT: https://github.com/yt-dlp/yt-dlp#output-template
 type FORMAT_TYPE = 
     "3gp" | "aac" | "flv" | "m4a" | "mp3" | "mp4" | "ogg" | "wav" | "webm" | 
     "best" | "best*" | "bestvideo" | "bestvideo*" | "bestaudio" | "bestaudio*" |
     "worst*" | "worst" | "worstvideo" | "worstvideo*" | 
     "worstaudio" | "worstaudio*" | undefined;
-type AUDIO_FORMAT_TYPE = "mp4a.40.5" | "mp4a.40.2" | "opus" | undefined
+type AUDIO_FORMAT_TYPE = "mp4a.40.5" | "mp4a.40.2" | "opus" | "mp3" | undefined
 
 const LINK_PATH = "./links.txt"
 const AUDIO_FORMAT: AUDIO_FORMAT_TYPE = undefined;
-const FORMAT = undefined;
+const FORMAT = "mp3";
 
-const EXTRACT_AUDIO = undefined;
-const KEEP_VIDEO = undefined;
-const DUMP_JSON = true;
+const EXTRACT_AUDIO = true;
+const KEEP_VIDEO = false;
 
 
 // no touchie unless you know what you're doing.
@@ -28,16 +28,15 @@ async function createDownloadSession(link: string) {
     const res = ytdl(link, {
         retries: 3,
         continue: true,
-        configLocation: "./",
         keepVideo: KEEP_VIDEO,
         extractAudio: EXTRACT_AUDIO,
         audioFormat: AUDIO_FORMAT,
-        dumpSingleJson: DUMP_JSON,
         format: FORMAT,
         addHeader: [
             'referer:youtube.com',
             'user-agent:googlebot'
-        ]
+        ],
+        output: "completed/%(uploader)s/%(playlist)s/%(title)s.%(ext)s",
     });
     const progress_bar_print = await progress(res, `Completing ${link}.`);
     console.log(`\n${progress_bar_print}`);
