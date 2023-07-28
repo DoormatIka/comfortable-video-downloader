@@ -17,4 +17,6 @@ The videos will be installed inside the `"completed/NA"` folder. Playlists will 
 ## Info
 This is a rewrite of Ctaehko's ChatGPT code of a Youtube Downloader.
 
+![image](https://github.com/DoormatIka/comfortable-video-downloader/assets/68234036/832dcbda-1abc-45a7-b4fa-fa86797af0d1)
+
 This was done for free, sadly.
