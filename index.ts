@@ -16,11 +16,11 @@ type AUDIO_FORMAT_TYPE = "mp4a.40.5" | "mp4a.40.2" | "opus" | "mp3" | undefined
 
 const LINK_PATH = "./links.txt"
 const AUDIO_FORMAT: AUDIO_FORMAT_TYPE = undefined;
-const FORMAT = "mp3";
+const FORMAT = select("best", 2);
 
-const EXTRACT_AUDIO = true;
-const KEEP_VIDEO = false;
-
+// POST-PROCESSING
+const EXTRACT_AUDIO = undefined;
+const KEEP_VIDEO = true;
 
 // no touchie unless you know what you're doing.
 async function createDownloadSession(link: string) {
@@ -36,11 +36,12 @@ async function createDownloadSession(link: string) {
             'referer:youtube.com',
             'user-agent:googlebot'
         ],
-        output: "completed/%(uploader)s/%(playlist)s/%(title)s.%(ext)s",
+        output: "completed/%(uploader|No Uploader)s/%(album,playlist|No Playlist)s/%(title)s.%(ext)s",
     });
-    const progress_bar_print = await progress(res, `Completing ${link}.`);
+    const progress_bar_print = await progress(res, `Downloading ${link}`);
     console.log(`\n${progress_bar_print}`);
 }
+
 async function parser(links: internal.Transform) {
     for await (const link of links) {
         await createDownloadSession(link);
@@ -49,23 +50,21 @@ async function parser(links: internal.Transform) {
 
 const file = createReadStream(LINK_PATH, { encoding: "utf8" });
 await parser(
-    file
-        .pipe(split2())
-        .on("close", function() { file.destroy() })
-);
+    file.pipe(split2())
+        .on("close", function() { file.destroy() }));
 file.destroy();
 
-function mergeFormats(...format: (FORMAT_TYPE | AUDIO_FORMAT_TYPE)[]) {
+function mergeFormats(...format: (FORMAT_TYPE | AUDIO_FORMAT_TYPE | string)[]) {
     // equivalent to combining different formats into one
     // usage: mergeFormats("bestvideo", "worstaudio")
     return format.join("+");
 }
-function formatSeperate(...format: (FORMAT_TYPE | AUDIO_FORMAT_TYPE)[]) {
+function formatSeperate(...format: (FORMAT_TYPE | AUDIO_FORMAT_TYPE | string)[]) {
     // equivalent to separating formats into their own files
     return format.join(",");
 }
 function select(format: FORMAT_TYPE, selected: number) {
     // equivalent to "ba.2" => "second best audio quality" and etc.
     // "ba.n"
-    return `${format}${selected}`;
+    return `${format}.${selected}`;
 }

@@ -1,5 +1,5 @@
 # Comfortable Video Downloader
-GUI and .exe incoming soon!
+**DEPRECATED**: This is using a node.js wrapper for the ytdlp.exe. There are a lot of limitations with using the .exe instead of the main library.
 
 ## Installation
 - Download this repo.
@@ -18,3 +18,8 @@ The videos will be installed inside the `"completed/NA"` folder. Playlists will 
 This is a rewrite of Ctaehko's ChatGPT code of a Youtube Downloader.
 
 This was done for free, sadly.
+
+## Feature TODO List
+https://github.com/yt-dlp/yt-dlp#format-selection-examples
+
+- Being able to choose the closest in filesize. ``
