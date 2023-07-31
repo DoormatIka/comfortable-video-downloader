@@ -3,6 +3,10 @@ import logger from "progress-estimator";
 import { createReadStream } from "fs";
 import split2 from "split2";
 import internal from "stream";
+import * as url from 'url';
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 // WHAT IS THIS??
 // FORMAT: https://github.com/yt-dlp/yt-dlp#format-selection-examples
@@ -12,11 +16,11 @@ type FORMAT_TYPE =
     "best" | "best*" | "bestvideo" | "bestvideo*" | "bestaudio" | "bestaudio*" |
     "worst*" | "worst" | "worstvideo" | "worstvideo*" | 
     "worstaudio" | "worstaudio*" | undefined;
-type AUDIO_FORMAT_TYPE = "mp4a.40.5" | "mp4a.40.2" | "opus" | "mp3" | undefined
+type AUDIO_FORMAT_TYPE = "mp4a.40.5" | "mp4a.40.2" | "opus" | "mp3" | undefined;
 
-const LINK_PATH = "./links.txt"
+const LINK_PATH = __dirname + `\\config\\links.txt`
 const AUDIO_FORMAT: AUDIO_FORMAT_TYPE = undefined;
-const FORMAT = select("best", 2);
+const FORMAT = select("best", 3);
 
 // POST-PROCESSING
 const EXTRACT_AUDIO = undefined;
@@ -36,10 +40,12 @@ async function createDownloadSession(link: string) {
             'referer:youtube.com',
             'user-agent:googlebot'
         ],
-        output: "completed/%(uploader|No Uploader)s/%(album,playlist|No Playlist)s/%(title)s.%(ext)s",
+        printJson: true, // needed to access the fucking stuff inside YtResponse
+        output: "src/completed/%(uploader|No Uploader)s/%(album,playlist|No Playlist)s/%(playlist_index)s-%(title)s.%(ext)s",
+        configLocation: __dirname + `\\config`
     });
-    const progress_bar_print = await progress(res, `Downloading ${link}`);
-    console.log(`\n${progress_bar_print}`);
+    const youtube_response = await progress(res, `Downloading ${link}`);
+    console.log(youtube_response?._filename); // unreliable
 }
 
 async function parser(links: internal.Transform) {

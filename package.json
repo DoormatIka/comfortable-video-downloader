@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fs-extra": "^11.1.1",
     "md5": "^2.3.0",
+    "node-dir": "^0.1.17",
     "progress-estimator": "^0.3.1",
     "split2": "^4.2.0",
     "typescript": "^5.1.6",
@@ -19,8 +21,10 @@
   },
   "type": "module",
   "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
     "@types/md5": "^2.3.2",
     "@types/node": "^20.4.5",
+    "@types/node-dir": "^0.0.34",
     "@types/split2": "^4.2.0",
     "ts-node": "^10.9.1"
   }
